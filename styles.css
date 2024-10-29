@@ -1,0 +1,18 @@
+:root {
+    --background-color: #E9D9CA;
+    --secondary-color: #000F08;
+}
+
+@font-face {
+    font-family: 'Moldy Cheese';
+    src: url(MouldyCheeseRegular.ttf);
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+p {
+    color: var(--secondary-color);
+    font-family: 'Moldy cheese', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
