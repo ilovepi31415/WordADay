@@ -1,7 +1,10 @@
 :root {
     --background-color: #E9D9CA;
     --secondary-color: #000F08;
+    overflow: hidden;
 }
+
+
 
 @font-face {
     font-family: 'Moldy Cheese';
@@ -10,9 +13,41 @@
 
 body {
     background-color: var(--background-color);
+    font-family: 'Moldy cheese', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    justify-content: center;
+    align-items: center;
 }
 
-p {
-    color: var(--secondary-color);
-    font-family: 'Moldy cheese', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
 }
+
+#answer-container {
+    display: flex;
+}
+
+.section {
+    position: relative;
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    padding: 10px;
+    margin: 10px;
+    border: 4px solid var(--secondary-color);
+    border-radius: 10px;
+}
+
+button {
+    width: 25vw;
+    max-width: 350px;
+    font-family: inherit;
+    font-size: 20px
+}
+
+#question {
+    width: 60vw;
+}
+

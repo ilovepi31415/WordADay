@@ -1,10 +1,21 @@
 <!DOCTYPE html>
+<!-- http://127.0.0.1:3000/index.html -->
 <html>
     <head>
         <link rel="stylesheet" href="styles.css">
-        <link rel="script" href="script.js">
+        <script src="script.js" defer></script>
     </head>
     <body>
-        <p>The quick brown fox jumps over the lazy dogs!</p>
+        <div id="container">
+            <div class="section" id="question">
+                <h2 id="title">Insert Title Here</h2>
+                <p id="description">This is an example sentence that is used so you can learn which <u>_____</u> to use in the blank</p>
+            </div>
+            <div id="answer-container">
+                <button class="section" id="a" onclick="hello(this)">Word</button>
+                <button class="section" id="b" onclick="hello(this)">Person</button>
+                <button class="section" id="c" onclick="hello(this)">Antidisestablishmentarianism</button>
+            </div>
+        </div>
     </body>
 </html>
