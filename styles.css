@@ -32,6 +32,10 @@ body {
     display: flex;
 }
 
+#feedback {
+    height: 10px;
+}
+
 .section {
     position: relative;
     background-color: var(--background-color);
