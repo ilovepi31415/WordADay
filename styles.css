@@ -1,6 +1,8 @@
 :root {
     --background-color: #E9D9CA;
+    --light-hover: #D9C9BA;
     --secondary-color: #000F08;
+    --dark-hover: #202F28;
     overflow: hidden;
 }
 
@@ -41,10 +43,16 @@ body {
 }
 
 button {
-    width: 25vw;
-    max-width: 350px;
+    width: 350px;
     font-family: inherit;
     font-size: 20px
+}
+
+button:hover {
+    color: var(--dark-hover);
+    border-color: var(--dark-hover);
+    background-color: var(--light-hover);
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 
 #question {
