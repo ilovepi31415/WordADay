@@ -8,7 +8,34 @@ const title = document.getElementById('title');
 const description = document.getElementById('description');
 const feedback = document.getElementById('feedback');
 const scorecard = document.getElementById('score');
+let wordList = [];
+let learnedWords = [];
+let correctWord;
+let score = 0;
+let askedQuestions = 0;
+const message = new SpeechSynthesisUtterance();
+const speechSynthesis = window.speechSynthesis;
 const questionBank = {
+    acumen: {
+        word: 'Acumen',
+        definition: 'The ability to make good judgments and quick decisions, typically in a particular domain.',
+        questions: [
+            "Her business ________ allowed her to spot lucrative opportunities that others overlooked.",
+            "With his keen ________, he navigated the complexities of the stock market with ease, maximizing his investments.",
+            "The chef’s culinary ________ was evident in the way he combined unexpected flavors to create exquisite dishes.",
+            "His ________ in negotiations turned potential conflicts into mutually beneficial agreements, earning him respect in the industry."
+        ]
+    },
+    balter: {
+        word: 'Balter',
+        definition: 'To dance clumsily or ungracefully; to move or dance in a carefree manner.',
+        questions: [
+            "As the music played, she began to ________ around the living room, completely lost in the rhythm and her own joy.",
+            "Despite his lack of formal training, he didn’t hesitate to ________ at the wedding, drawing smiles from everyone around him.",
+            "Under the stars, the friends began to ________ together, their laughter mingling with the soft sounds of nature.",
+            "At the festival, children and adults alike ________ in a whimsical display of carefree abandon, celebrating life in the moment."
+        ]
+    },    
     frission: {
         word: 'Frission',
         definition: 'A brief moment of emotional excitement or fear that can cause a physical response, such as shivers or a tingling sensation',
@@ -29,16 +56,36 @@ const questionBank = {
             "During the debate, the politician's ________ was carefully chosen to evoke a sense of empathy among voters."
         ]
     },
+    obdurate: {
+        word: 'Obdurate',
+        definition: 'Stubbornly refusing to change one’s opinion or course of action; unyielding.',
+        questions: [
+            "Despite the overwhelming evidence against him, he remained ________ in his denial, refusing to acknowledge any wrongdoing.",
+            "Her ________ stance on the issue made it difficult for her colleagues to engage in productive discussions.",
+            "Even in the face of heartfelt pleas, the CEO was ________ about his decision to cut costs, prioritizing profit over employee welfare.",
+            "His ________ refusal to compromise led to a stalemate in negotiations, frustrating everyone involved."
+        ]
+    },    
+    raconteur: {
+        word: 'Raconteur',
+        definition: 'A person who tells anecdotes in a skillful and amusing way.',
+        questions: [
+            "At the party, he quickly became the star of the evening, captivating everyone with his ________ tales of adventure and mischief.",
+            "Her knack for storytelling made her the perfect ________, enchanting listeners with her vivid descriptions of past travels.",
+            "Every family gathering was a joy, thanks to Grandpa, the ultimate ________, whose humorous stories always had everyone laughing.",
+            "During the book club, the author proved to be a skilled ________, sharing behind-the-scenes anecdotes that brought her characters to life."
+        ]
+    },    
     sonder: {
         word: 'Sonder',
         definition: 'The realization that each random passerby is living a life as vivid and complex as your own.',
         questions: [
-            "In a bustling city, the feeling of __________ washed over her as she watched strangers interact.",
-            "He experienced __________ when he paused to consider the stories behind the faces in the crowd.",
-            "While traveling, she often felt __________, imagining the lives of people she met along the way.",
-            "The concept of __________ can lead to a deeper empathy for others and an appreciation of their experiences."
+            "As she sat in the café, sipping her coffee, a wave of __________ struck her while watching a couple argue animatedly at the next table.",
+            "He felt a sudden sense of __________ while walking through the park, imagining the secret dreams and struggles of the joggers around him.",
+            "While stuck in traffic, the driver experienced __________, contemplating the diverse lives of people in neighboring cars, each with their own stories to tell.",
+            "In a crowded train, the overwhelming sense of __________ enveloped her, making her realize that every face was a novel waiting to be discovered."
         ]
-    },        
+    },           
     syzygy: {
         word: 'Syzygy',
         definition: 'A conjunction or opposition, especially of the moon with the sun; a straight-line configuration of three celestial bodies.',
@@ -60,11 +107,6 @@ const questionBank = {
         ]
     }
 }
-let wordList = [];
-let learnedWords = [];
-let correctWord;
-let score = 0;
-let askedQuestions = 0;
 
 // Runs on page load
 function startUp() {
@@ -76,7 +118,7 @@ function startUp() {
 }
 
 // Runs when a button is clicked to submit an answer
-function checkAnswer(button) {
+async function checkAnswer(button) { // TODO: Make TTS optional
     // Finds the correct answer
     buttons.forEach((btn) => {
         btn.style.backgroundColor = (btn.textContent == correctWord ? '#3a3' : '#a33');
@@ -88,12 +130,12 @@ function checkAnswer(button) {
     }
     else {
         setFeedback('Incorrect...')
+        await say('Incorrect. You should have said');
     }
+    await say(correctWord);
     updateScore();
-    setTimeout(() => {
-        resetQuestion();
-        askQuestion();
-    }, 1000);
+    resetQuestion();
+    askQuestion();
 }
 
 // Creates the text for the next question
@@ -156,4 +198,31 @@ function resetQuestion() {
 function updateScore() {
     askedQuestions++;
     scorecard.textContent = `${score}/${askedQuestions}`;
+}
+
+document.addEventListener("keydown", function(event) {
+    if (answerA.disabled == false) {
+        switch (event.key) {
+            case "1":
+            checkAnswer(answerA);
+                break;
+            case "2":
+            checkAnswer(answerB);
+            break;
+            case "3":
+            checkAnswer(answerC);
+            break;
+        }
+    }
+});
+
+function say(myMessage) {
+    message.text = myMessage;
+    return new Promise((resolve) => {
+        message.onend = () => {
+            resolve();
+        };
+        speechSynthesis.speak(message);
+    })
+    
 }
