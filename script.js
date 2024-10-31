@@ -8,11 +8,13 @@ const title = document.getElementById('title');
 const description = document.getElementById('description');
 const feedback = document.getElementById('feedback');
 const scorecard = document.getElementById('score');
+const speaker = document.getElementById('mute');
 let wordList = [];
 let learnedWords = [];
 let correctWord;
 let score = 0;
 let askedQuestions = 0;
+let muted = false;
 const message = new SpeechSynthesisUtterance();
 const speechSynthesis = window.speechSynthesis;
 const questionBank = {
@@ -114,11 +116,12 @@ function startUp() {
     for (let word in questionBank) {
         wordList.push(word);
     }
+    checkMuted();
     askQuestion();
 }
 
 // Runs when a button is clicked to submit an answer
-async function checkAnswer(button) { // TODO: Make TTS optional
+async function checkAnswer(button) {
     // Finds the correct answer
     buttons.forEach((btn) => {
         btn.style.backgroundColor = (btn.textContent == correctWord ? '#3a3' : '#a33');
@@ -217,12 +220,27 @@ document.addEventListener("keydown", function(event) {
 });
 
 function say(myMessage) {
-    message.text = myMessage;
+    if (!muted) {
+        message.text = myMessage;
+        return new Promise((resolve) => {
+            message.onend = () => {
+                resolve();
+            };
+            speechSynthesis.speak(message);
+        });
+    }
     return new Promise((resolve) => {
-        message.onend = () => {
+        setTimeout(() => {
             resolve();
-        };
-        speechSynthesis.speak(message);
-    })
-    
+        }, 1000);
+    });
+}
+
+function toggleMute() {
+    muted = !muted;
+    checkMuted();
+}
+
+function checkMuted() {
+    speaker.src = muted ? 'muted.png' : 'sound.png';
 }

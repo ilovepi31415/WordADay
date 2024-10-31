@@ -28,6 +28,13 @@ body {
     justify-content: center;
 }
 
+#title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
 #answer-container {
     display: flex;
     flex-direction: column;
@@ -69,7 +76,7 @@ p:hover, h2:hover {
     cursor: default;
 }
 
-#title {
+#title, img {
     margin-bottom: 0;
 }
 
