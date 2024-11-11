@@ -1,0 +1,1 @@
+WordADay is meant to improve vocabularly through a quiz format. The user is given a question (either fill-in-the-blank or a definition) and are presented with three options as answers. The program provides feedback and optionally allows Text-To-Speech so pronounciation can also be learned
